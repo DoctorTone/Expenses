@@ -1,5 +1,5 @@
 import { Canvas } from "@react-three/fiber";
-import { Stage, Cylinder, OrbitControls, Box } from "@react-three/drei";
+import { Stage, Cylinder, OrbitControls, Text } from "@react-three/drei";
 import { SCENE } from "./state/Config";
 
 function App() {
@@ -8,6 +8,9 @@ function App() {
       <Canvas camera={{ position: SCENE.CAMERA_POSITION }}>
         <color attach="background" args={["skyblue"]} />
         <Stage adjustCamera shadows="contact" environment="city">
+          <Text color="black" anchorX="center" anchorY="middle" position-y={1}>
+            Add expenditure
+          </Text>
           <Cylinder args={[5, 5, 0.5, 64, 1]}>
             <meshStandardMaterial color="yellow" />
           </Cylinder>

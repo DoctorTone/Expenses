@@ -5,29 +5,47 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { Box, DialogActions, DialogContent, TextField } from "@mui/material";
 
 const Menu = () => {
-  const [open, setOpen] = useState(false);
+  const [openExpense, setOpenExpense] = useState(false);
+  const [openCategory, setOpenCategory] = useState(false);
 
-  const openExpense = () => {
-    setOpen(true);
+  const openExpenseDialog = () => {
+    setOpenExpense(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const openCategoryDialog = () => {
+    setOpenCategory(true);
+  };
+
+  const handleCloseExpense = () => {
+    setOpenExpense(false);
+  };
+
+  const handleCloseCategory = () => {
+    setOpenCategory(false);
   };
 
   return (
     <>
       <div id="menu" className="panel">
         <Box component="form" sx={{ display: "flex", flexDirection: "column" }}>
-          <Button variant="contained" onClick={openExpense} sx={{ mb: 2 }}>
+          <Button
+            variant="contained"
+            onClick={openExpenseDialog}
+            sx={{ mb: 2 }}
+          >
             Add Expense
           </Button>
-          <Button variant="contained" onClick={openExpense}>
+          <Button variant="contained" onClick={openCategoryDialog}>
             Add Category
           </Button>
         </Box>
       </div>
-      <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth={true}>
+      <Dialog
+        open={openExpense}
+        onClose={handleCloseExpense}
+        maxWidth="md"
+        fullWidth={true}
+      >
         <DialogTitle>Add Expense</DialogTitle>
         <DialogContent>
           <TextField
@@ -60,8 +78,31 @@ const Menu = () => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleCloseExpense}>Cancel</Button>
           <Button type="submit">Submit</Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        open={openCategory}
+        onClose={handleCloseCategory}
+        maxWidth="md"
+        fullWidth={true}
+      >
+        <DialogTitle>Add Category</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            required
+            margin="dense"
+            id="categoryName"
+            label="Name"
+            fullWidth
+            variant="standard"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseCategory}>Cancel</Button>
+          <Button type="submit">Add</Button>
         </DialogActions>
       </Dialog>
     </>

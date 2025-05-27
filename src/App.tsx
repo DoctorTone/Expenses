@@ -1,16 +1,18 @@
 import { Canvas } from "@react-three/fiber";
-import { Box } from "@react-three/drei";
-import { OrbitControls } from "@react-three/drei";
+import { Stage, Cylinder, OrbitControls, Box } from "@react-three/drei";
+import { SCENE } from "./state/Config";
 
 function App() {
   return (
     <>
-      <Canvas>
-        <ambientLight />
-        <pointLight position={[1, 1, 1]} />
-        <Box>
-          <meshStandardMaterial color="red" />
-        </Box>
+      <Canvas camera={{ position: SCENE.CAMERA_POSITION }}>
+        <color attach="background" args={["skyblue"]} />
+        <Stage adjustCamera shadows="contact" environment="city">
+          <Cylinder args={[5, 5, 0.5, 64, 1]}>
+            <meshStandardMaterial color="yellow" />
+          </Cylinder>
+        </Stage>
+
         <OrbitControls
           makeDefault
           enablePan={true}

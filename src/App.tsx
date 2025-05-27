@@ -1,12 +1,13 @@
 import { Canvas } from "@react-three/fiber";
 import { Stage, Cylinder, OrbitControls, Text } from "@react-three/drei";
 import { SCENE } from "./state/Config";
+import Menu from "./UI/Menu";
 
 function App() {
   return (
     <>
       <Canvas camera={{ position: SCENE.CAMERA_POSITION }}>
-        <color attach="background" args={["skyblue"]} />
+        <color attach="background" args={["darkgray"]} />
         <Stage adjustCamera shadows="contact" environment="city">
           <Text color="black" anchorX="center" anchorY="middle" position-y={1}>
             Add expenditure
@@ -23,6 +24,7 @@ function App() {
           enableDamping={true}
         />
       </Canvas>
+      <Menu />
     </>
   );
 }

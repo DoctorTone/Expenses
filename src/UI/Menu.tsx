@@ -2,11 +2,23 @@ import { useState } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Box, DialogActions, DialogContent, TextField } from "@mui/material";
+import {
+  Box,
+  DialogActions,
+  DialogContent,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  type SelectChangeEvent,
+} from "@mui/material";
 
 const Menu = () => {
   const [openExpense, setOpenExpense] = useState(false);
   const [openCategory, setOpenCategory] = useState(false);
+  const [category, setCategory] = useState("");
+
+  const cats = ["Food and drink", "Groceries", "Petrol", "Bills", "DIY"];
 
   const openExpenseDialog = () => {
     setOpenExpense(true);
@@ -28,6 +40,10 @@ const Menu = () => {
     // DEBUG
     console.log("Item", formData.get("item"));
     setOpenExpense(false);
+  };
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setCategory(event.target.value as string);
   };
 
   return (
@@ -74,17 +90,26 @@ const Menu = () => {
               label="Amount"
               fullWidth
               variant="standard"
+              sx={{ mb: 2 }}
             />
-            <TextField
+            <InputLabel id="category-label" sx={{ ml: 1 }}>
+              Category
+            </InputLabel>
+            <Select
               autoFocus
               required
-              margin="dense"
+              labelId="category-label"
               id="category"
-              name="category"
               label="Category"
+              name="category"
+              value={category}
               fullWidth
-              variant="standard"
-            />
+              onChange={handleChange}
+            >
+              {cats.map((current, index) => (
+                <MenuItem value={current}>{current}</MenuItem>
+              ))}
+            </Select>
           </form>
         </DialogContent>
         <DialogActions>

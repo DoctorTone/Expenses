@@ -5,7 +5,7 @@ interface ExpensesState {
 }
 
 const useStore = create<ExpensesState>((set) => ({
-  categories: [],
+  categories: ["Food and drink", "Groceries", "Petrol", "Bills", "DIY"],
 }));
 
 export default useStore;

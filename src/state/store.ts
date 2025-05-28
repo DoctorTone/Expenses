@@ -5,8 +5,15 @@ type ExpenseItem = {
   value: string;
 };
 
+type Expense = {
+  item: string;
+  amount: number;
+  category: string;
+};
+
 interface ExpensesState {
   expenseCategories: ExpenseItem[];
+  expenses: Expense[];
 }
 
 const useStore = create<ExpensesState>((set) => ({
@@ -17,6 +24,7 @@ const useStore = create<ExpensesState>((set) => ({
     { label: "Bills", value: "Bills" },
     { label: "DIY", value: "DIY" },
   ],
+  expenses: [],
 }));
 
 export default useStore;

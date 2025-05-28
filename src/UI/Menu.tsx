@@ -12,11 +12,13 @@ import {
   TextField,
   type SelectChangeEvent,
 } from "@mui/material";
+import useStore from "../state/store";
 
 const Menu = () => {
   const [openExpense, setOpenExpense] = useState(false);
   const [openCategory, setOpenCategory] = useState(false);
   const [category, setCategory] = useState("");
+  const expenseCategories = useStore((state) => state.expenseCategories);
 
   const cats = ["Food and drink", "Groceries", "Petrol", "Bills", "DIY"];
 
@@ -106,8 +108,8 @@ const Menu = () => {
               fullWidth
               onChange={handleChange}
             >
-              {cats.map((current, index) => (
-                <MenuItem value={current}>{current}</MenuItem>
+              {expenseCategories.map((current) => (
+                <MenuItem value={current.value}>{current.label}</MenuItem>
               ))}
             </Select>
           </form>

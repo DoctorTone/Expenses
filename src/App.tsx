@@ -10,7 +10,7 @@ function App() {
         <color attach="background" args={["darkgray"]} />
         <Stage adjustCamera shadows="contact" environment="city">
           <Text color="black" anchorX="center" anchorY="middle" position-y={1}>
-            Add expenditure
+            No expenditure
           </Text>
           <Cylinder args={[5, 5, 0.5, 64, 1]}>
             <meshStandardMaterial color="yellow" />

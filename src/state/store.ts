@@ -3,8 +3,10 @@ import type { ExpenseItem, Expense } from "./Config";
 
 interface ExpensesState {
   expenseCategories: ExpenseItem[];
+  usedCategories: number;
   expenses: Expense[];
   updateExpenses: (expense: Expense) => void;
+  updateUsedCategories: () => void;
   expenditureAdded: boolean;
 }
 
@@ -17,12 +19,15 @@ const useStore = create<ExpensesState>((set) => ({
     { label: "Bills", value: "Bills" },
     { label: "DIY", value: "DIY" },
   ],
+  usedCategories: 0,
   expenses: [],
   updateExpenses: (expense) =>
     set((state) => ({
       expenses: [...state.expenses, expense],
       expenditureAdded: true,
     })),
+  updateUsedCategories: () =>
+    set((state) => ({ usedCategories: state.usedCategories + 1 })),
 }));
 
 export default useStore;

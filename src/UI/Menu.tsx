@@ -22,6 +22,7 @@ const Menu = () => {
   const expenseCategories = useStore((state) => state.expenseCategories);
   const expenses = useStore((state) => state.expenses);
   const updateExpenses = useStore((state) => state.updateExpenses);
+  const updateUsedCategories = useStore((state) => state.updateUsedCategories);
 
   const openExpenseDialog = () => {
     setOpenExpense(true);
@@ -50,6 +51,18 @@ const Menu = () => {
       numericAmount = 0;
     }
 
+    // See if new category
+    const currentCategory = formData.get("category") as string;
+    const foundCategory = expenses.find(
+      (element) => element.category === currentCategory
+    );
+
+    if (!foundCategory) {
+      // DEBUG
+      console.log("New category", currentCategory);
+      updateUsedCategories();
+    }
+
     const expense: Expense = {
       item: formData.get("item") as string,
       amount: numericAmount,
@@ -57,6 +70,7 @@ const Menu = () => {
       date: new Date().toDateString(),
     };
     updateExpenses(expense);
+
     setOpenExpense(false);
   };
 

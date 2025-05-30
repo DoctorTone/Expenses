@@ -5,9 +5,11 @@ interface ExpensesState {
   expenseCategories: ExpenseItem[];
   expenses: Expense[];
   updateExpenses: (expense: Expense) => void;
+  expenditureAdded: boolean;
 }
 
 const useStore = create<ExpensesState>((set) => ({
+  expenditureAdded: false,
   expenseCategories: [
     { label: "Food and drink", value: "Food" },
     { label: "Groceries", value: "Groceries" },
@@ -17,7 +19,10 @@ const useStore = create<ExpensesState>((set) => ({
   ],
   expenses: [],
   updateExpenses: (expense) =>
-    set((state) => ({ expenses: [...state.expenses, expense] })),
+    set((state) => ({
+      expenses: [...state.expenses, expense],
+      expenditureAdded: true,
+    })),
 }));
 
 export default useStore;

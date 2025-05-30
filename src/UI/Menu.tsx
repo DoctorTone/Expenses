@@ -54,6 +54,7 @@ const Menu = () => {
       item: formData.get("item") as string,
       amount: numericAmount,
       category: formData.get("category") as string,
+      date: new Date().toDateString(),
     };
     updateExpenses(expense);
     setOpenExpense(false);

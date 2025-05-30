@@ -13,14 +13,15 @@ import {
   type SelectChangeEvent,
 } from "@mui/material";
 import useStore from "../state/store";
+import type { Expense } from "../state/Config";
 
 const Menu = () => {
   const [openExpense, setOpenExpense] = useState(false);
   const [openCategory, setOpenCategory] = useState(false);
   const [category, setCategory] = useState("");
   const expenseCategories = useStore((state) => state.expenseCategories);
-
-  const cats = ["Food and drink", "Groceries", "Petrol", "Bills", "DIY"];
+  const expenses = useStore((state) => state.expenses);
+  const updateExpenses = useStore((state) => state.updateExpenses);
 
   const openExpenseDialog = () => {
     setOpenExpense(true);
@@ -38,9 +39,23 @@ const Menu = () => {
     setOpenCategory(false);
   };
 
-  const addExpense = (formData: FormData) => {
+  const displayExpenses = () => {
     // DEBUG
-    console.log("Item", formData.get("item"));
+    console.log("Expenses = ", expenses);
+  };
+  const addExpense = (formData: FormData) => {
+    // Get amount as number
+    let numericAmount = parseFloat(formData.get("amount") as string);
+    if (Number.isNaN(numericAmount)) {
+      numericAmount = 0;
+    }
+
+    const expense: Expense = {
+      item: formData.get("item") as string,
+      amount: numericAmount,
+      category: formData.get("category") as string,
+    };
+    updateExpenses(expense);
     setOpenExpense(false);
   };
 
@@ -61,6 +76,9 @@ const Menu = () => {
           </Button>
           <Button variant="contained" onClick={openCategoryDialog}>
             Add Category
+          </Button>
+          <Button variant="contained" onClick={displayExpenses}>
+            List
           </Button>
         </Box>
       </div>

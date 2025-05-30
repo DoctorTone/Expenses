@@ -1,19 +1,10 @@
 import { create } from "zustand";
-
-type ExpenseItem = {
-  label: string;
-  value: string;
-};
-
-type Expense = {
-  item: string;
-  amount: number;
-  category: string;
-};
+import type { ExpenseItem, Expense } from "./Config";
 
 interface ExpensesState {
   expenseCategories: ExpenseItem[];
   expenses: Expense[];
+  updateExpenses: (expense: Expense) => void;
 }
 
 const useStore = create<ExpensesState>((set) => ({
@@ -25,6 +16,8 @@ const useStore = create<ExpensesState>((set) => ({
     { label: "DIY", value: "DIY" },
   ],
   expenses: [],
+  updateExpenses: (expense) =>
+    set((state) => ({ expenses: [...state.expenses, expense] })),
 }));
 
 export default useStore;

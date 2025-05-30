@@ -1,7 +1,8 @@
 import { Canvas } from "@react-three/fiber";
-import { Stage, Cylinder, OrbitControls, Text } from "@react-three/drei";
+import { Stage, Cylinder, OrbitControls, Text, Plane } from "@react-three/drei";
 import { SCENE } from "./state/Config";
 import Menu from "./UI/Menu";
+import Coins from "./components/Coins";
 import useStore from "./state/store";
 
 function App() {
@@ -22,9 +23,10 @@ function App() {
               No expenditure
             </Text>
           )}
-          <Cylinder args={[5, 5, 0.5, 64, 1]}>
+          {expenditureAdded && <Coins />}
+          {/* <Plane args={[100, 100]} rotation-x={-Math.PI / 2}>
             <meshStandardMaterial color="yellow" />
-          </Cylinder>
+          </Plane> */}
         </Stage>
 
         <OrbitControls

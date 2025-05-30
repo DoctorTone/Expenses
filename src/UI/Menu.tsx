@@ -74,11 +74,15 @@ const Menu = () => {
           >
             Add Expense
           </Button>
-          <Button variant="contained" onClick={openCategoryDialog}>
+          <Button
+            variant="contained"
+            onClick={openCategoryDialog}
+            sx={{ mb: 2 }}
+          >
             Add Category
           </Button>
           <Button variant="contained" onClick={displayExpenses}>
-            List
+            List All
           </Button>
         </Box>
       </div>

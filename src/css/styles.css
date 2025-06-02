@@ -24,10 +24,7 @@ body {
   top: 5%;
   left: 1%;
 }
-.imagePanel {
-  text-align: center;
-}
-.image {
-  width: 10%;
-  pointer-events: none;
+#total {
+  top: 5%;
+  right: 5%;
 }

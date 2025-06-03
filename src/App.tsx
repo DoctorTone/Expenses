@@ -1,5 +1,5 @@
 import { Canvas } from "@react-three/fiber";
-import { Stage, Sky, OrbitControls, Text, Plane } from "@react-three/drei";
+import { Stage, Sky, OrbitControls, Text, Cylinder } from "@react-three/drei";
 import { SCENE } from "./state/Config";
 import Menu from "./UI/Menu";
 import Coins from "./components/Coins";
@@ -31,9 +31,9 @@ function App() {
           )}
 
           {expenditureAdded && <Coins />}
-          <Plane args={[100, 100]} rotation-x={-Math.PI / 2}>
+          <Cylinder args={[100, 100]}>
             <meshStandardMaterial color="#807e7c" />
-          </Plane>
+          </Cylinder>
         </Stage>
 
         <OrbitControls

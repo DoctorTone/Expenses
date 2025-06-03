@@ -21,8 +21,10 @@ const Menu = () => {
   const [category, setCategory] = useState("");
   const expenseCategories = useStore((state) => state.expenseCategories);
   const expenses = useStore((state) => state.expenses);
+  const expenseTotals = useStore((state) => state.expenseTotals);
   const updateExpenses = useStore((state) => state.updateExpenses);
   const updateUsedCategories = useStore((state) => state.updateUsedCategories);
+  const updateTotals = useStore((state) => state.updateTotals);
 
   const openExpenseDialog = () => {
     setOpenExpense(true);
@@ -42,7 +44,7 @@ const Menu = () => {
 
   const displayExpenses = () => {
     // DEBUG
-    console.log("Expenses = ", expenses);
+    console.log("Expenses = ", expenseTotals);
   };
   const addExpense = (formData: FormData) => {
     // Get amount as number
@@ -60,7 +62,7 @@ const Menu = () => {
     if (!foundCategory) {
       // DEBUG
       console.log("New category", currentCategory);
-      updateUsedCategories();
+      updateUsedCategories(currentCategory);
     }
 
     const expense: Expense = {
@@ -70,6 +72,7 @@ const Menu = () => {
       date: new Date().toDateString(),
     };
     updateExpenses(expense);
+    updateTotals(expense);
 
     setOpenExpense(false);
   };

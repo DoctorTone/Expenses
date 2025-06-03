@@ -38,9 +38,11 @@ function App() {
 
         <OrbitControls
           makeDefault
-          enablePan={true}
+          enablePan={false}
           enableRotate={true}
           enableDamping={true}
+          minPolarAngle={0}
+          maxPolarAngle={Math.PI / 2}
         />
       </Canvas>
       <Menu />

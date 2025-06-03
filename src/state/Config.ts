@@ -16,4 +16,8 @@ export type Expense = {
   date: string;
 };
 
+export type ExpenseTotals = {
+  [key: string]: number;
+};
+
 export { SCENE };

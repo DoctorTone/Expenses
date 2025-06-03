@@ -18,7 +18,7 @@ function App() {
           inclination={0}
           azimuth={0.25}
         />
-        <Stage adjustCamera shadows="contact" environment="city">
+        <Stage adjustCamera={false} shadows="contact" environment="city">
           {!expenditureAdded && (
             <Text
               color="black"
@@ -31,7 +31,7 @@ function App() {
           )}
 
           {expenditureAdded && <Coins />}
-          <Plane args={[1000, 1000]} rotation-x={-Math.PI / 2}>
+          <Plane args={[100, 100]} rotation-x={-Math.PI / 2}>
             <meshStandardMaterial color="#807e7c" />
           </Plane>
         </Stage>

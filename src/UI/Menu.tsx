@@ -25,6 +25,9 @@ const Menu = () => {
   const updateExpenses = useStore((state) => state.updateExpenses);
   const updateUsedCategories = useStore((state) => state.updateUsedCategories);
   const updateTotals = useStore((state) => state.updateTotals);
+  const updateTotalExpenditure = useStore(
+    (state) => state.updateTotalExpenditure
+  );
 
   const openExpenseDialog = () => {
     setOpenExpense(true);
@@ -73,6 +76,7 @@ const Menu = () => {
     };
     updateExpenses(expense);
     updateTotals(expense);
+    updateTotalExpenditure(expense.amount);
 
     setOpenExpense(false);
   };

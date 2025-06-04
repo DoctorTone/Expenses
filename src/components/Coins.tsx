@@ -38,6 +38,7 @@ const Coins = () => {
             </Cylinder>
             <Billboard
               position={positions[index]}
+              rotation={[0, 0, 0]}
               lockX={true}
               lockZ={true}
               lockY={false}

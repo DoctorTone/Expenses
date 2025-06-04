@@ -4,7 +4,7 @@ import { SCENE } from "./state/Config";
 import Menu from "./UI/Menu";
 import Coins from "./components/Coins";
 import useStore from "./state/store";
-import Total from "./UI/Total";
+import Info from "./UI/Info";
 
 function App() {
   const expenditureAdded = useStore((state) => state.expenditureAdded);
@@ -46,7 +46,7 @@ function App() {
         />
       </Canvas>
       <Menu />
-      <Total />
+      <Info />
     </>
   );
 }

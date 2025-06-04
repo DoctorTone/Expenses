@@ -2,10 +2,14 @@ import { create } from "zustand";
 import type { ExpenseItem, Expense, ExpenseTotals } from "./Config";
 
 interface ExpensesState {
+  accountsName: string;
+  setAccountsName: (name: string) => void;
   expenseCategories: ExpenseItem[];
   usedCategories: number;
   expenses: Expense[];
   expenseTotals: ExpenseTotals;
+  totalExpenditure: number;
+  updateTotalExpenditure: (total: number) => void;
   updateExpenses: (expense: Expense) => void;
   updateUsedCategories: (category: string) => void;
   updateTotals: (expense: Expense) => void;
@@ -13,6 +17,11 @@ interface ExpensesState {
 }
 
 const useStore = create<ExpensesState>((set) => ({
+  accountsName: "Unnamed",
+  setAccountsName: (name) => set(() => ({ accountsName: name })),
+  totalExpenditure: 0,
+  updateTotalExpenditure: (total) =>
+    set((state) => ({ totalExpenditure: state.totalExpenditure + total })),
   expenditureAdded: false,
   expenseCategories: [
     { label: "Food and drink", value: "Food" },

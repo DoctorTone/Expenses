@@ -5,6 +5,7 @@ interface ExpensesState {
   accountsName: string;
   setAccountsName: (name: string) => void;
   expenseCategories: ExpenseItem[];
+  updateCategories: (category: ExpenseItem) => void;
   usedCategories: number;
   expenses: Expense[];
   expenseTotals: ExpenseTotals;
@@ -31,6 +32,10 @@ const useStore = create<ExpensesState>((set) => ({
     { label: "DIY", value: "DIY" },
   ],
   usedCategories: 0,
+  updateCategories: (category) =>
+    set((state) => ({
+      expenseCategories: [...state.expenseCategories, category],
+    })),
   expenses: [],
   expenseTotals: {},
   updateExpenses: (expense) =>

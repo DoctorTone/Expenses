@@ -13,7 +13,7 @@ import {
   type SelectChangeEvent,
 } from "@mui/material";
 import useStore from "../state/store";
-import type { Expense } from "../state/Config";
+import type { Expense, ExpenseItem } from "../state/Config";
 
 const Menu = () => {
   const [openExpense, setOpenExpense] = useState(false);
@@ -26,6 +26,7 @@ const Menu = () => {
   const updateExpenses = useStore((state) => state.updateExpenses);
   const updateUsedCategories = useStore((state) => state.updateUsedCategories);
   const updateTotals = useStore((state) => state.updateTotals);
+  const updateCategories = useStore((state) => state.updateCategories);
   const updateTotalExpenditure = useStore(
     (state) => state.updateTotalExpenditure
   );
@@ -92,6 +93,16 @@ const Menu = () => {
 
   const handleChange = (event: SelectChangeEvent) => {
     setCategory(event.target.value as string);
+  };
+
+  const addCategory = (formData: FormData) => {
+    const category: ExpenseItem = {
+      label: formData.get("label") as string,
+      value: formData.get("value") as string,
+    };
+
+    updateCategories(category);
+    setOpenCategory(false);
   };
 
   return (
@@ -185,19 +196,34 @@ const Menu = () => {
       >
         <DialogTitle>Add Category</DialogTitle>
         <DialogContent>
-          <TextField
-            autoFocus
-            required
-            margin="dense"
-            id="categoryName"
-            label="Name"
-            fullWidth
-            variant="standard"
-          />
+          <form id="categoryForm" action={addCategory}>
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              id="categoryLabel"
+              label="Label"
+              name="label"
+              fullWidth
+              variant="standard"
+            />
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              id="categoryValue"
+              label="Value"
+              name="value"
+              fullWidth
+              variant="standard"
+            />
+          </form>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseCategory}>Cancel</Button>
-          <Button type="submit">Add</Button>
+          <Button type="submit" form="categoryForm">
+            Add
+          </Button>
         </DialogActions>
       </Dialog>
       <Dialog

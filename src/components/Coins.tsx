@@ -1,4 +1,4 @@
-import { Cylinder, Text } from "@react-three/drei";
+import { Billboard, Cylinder, Text } from "@react-three/drei";
 import useStore from "../state/store";
 import { useMemo } from "react";
 import { Vector3 } from "three";
@@ -36,18 +36,29 @@ const Coins = () => {
             >
               <meshStandardMaterial color="red" />
             </Cylinder>
-            <Text
-              color="black"
-              anchorX="center"
-              anchorY="middle"
-              position={[
-                positions[index].x,
-                expenseTotals[key] + 1,
-                positions[index].z,
-              ]}
+            <Billboard
+              position={positions[index]}
+              lockX={true}
+              lockZ={true}
+              lockY={false}
             >
-              {key}
-            </Text>
+              <Text
+                color="black"
+                anchorX="center"
+                anchorY="middle"
+                position-y={expenseTotals[key] + 2}
+              >
+                {key}
+              </Text>
+              <Text
+                color="black"
+                anchorX="center"
+                anchorY="middle"
+                position-y={expenseTotals[key] + 1}
+              >
+                {"£" + expenseTotals[key]}
+              </Text>
+            </Billboard>
           </>
         );
       })}

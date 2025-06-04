@@ -18,6 +18,7 @@ import type { Expense } from "../state/Config";
 const Menu = () => {
   const [openExpense, setOpenExpense] = useState(false);
   const [openCategory, setOpenCategory] = useState(false);
+  const [openName, setOpenName] = useState(false);
   const [category, setCategory] = useState("");
   const expenseCategories = useStore((state) => state.expenseCategories);
   const expenses = useStore((state) => state.expenses);
@@ -37,12 +38,20 @@ const Menu = () => {
     setOpenCategory(true);
   };
 
+  const openNameDialog = () => {
+    setOpenName(true);
+  };
+
   const handleCloseExpense = () => {
     setOpenExpense(false);
   };
 
   const handleCloseCategory = () => {
     setOpenCategory(false);
+  };
+
+  const handleCloseName = () => {
+    setOpenName(false);
   };
 
   const displayExpenses = () => {
@@ -89,6 +98,9 @@ const Menu = () => {
     <>
       <div id="menu" className="panel">
         <Box sx={{ display: "flex", flexDirection: "column" }}>
+          <Button variant="contained" onClick={openNameDialog} sx={{ mb: 2 }}>
+            Update Name
+          </Button>
           <Button
             variant="contained"
             onClick={openExpenseDialog}
@@ -186,6 +198,29 @@ const Menu = () => {
         <DialogActions>
           <Button onClick={handleCloseCategory}>Cancel</Button>
           <Button type="submit">Add</Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        open={openName}
+        onClose={handleCloseName}
+        maxWidth="md"
+        fullWidth={true}
+      >
+        <DialogTitle>Set Accounts Name</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            required
+            margin="dense"
+            id="accountsName"
+            label="Name"
+            fullWidth
+            variant="standard"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseName}>Cancel</Button>
+          <Button type="submit">Update</Button>
         </DialogActions>
       </Dialog>
     </>

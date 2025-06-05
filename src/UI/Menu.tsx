@@ -27,6 +27,7 @@ const Menu = () => {
   const updateUsedCategories = useStore((state) => state.updateUsedCategories);
   const updateTotals = useStore((state) => state.updateTotals);
   const updateCategories = useStore((state) => state.updateCategories);
+  const setAccountsName = useStore((state) => state.setAccountsName);
   const updateTotalExpenditure = useStore(
     (state) => state.updateTotalExpenditure
   );
@@ -103,6 +104,12 @@ const Menu = () => {
 
     updateCategories(category);
     setOpenCategory(false);
+  };
+
+  const updateName = (formData: FormData) => {
+    const accountName = formData.get("accountsName") as string;
+    setAccountsName(accountName);
+    setOpenName(false);
   };
 
   return (
@@ -234,19 +241,24 @@ const Menu = () => {
       >
         <DialogTitle>Set Accounts Name</DialogTitle>
         <DialogContent>
-          <TextField
-            autoFocus
-            required
-            margin="dense"
-            id="accountsName"
-            label="Name"
-            fullWidth
-            variant="standard"
-          />
+          <form id="nameForm" action={updateName}>
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              id="accountsName"
+              name="accountsName"
+              label="Name"
+              fullWidth
+              variant="standard"
+            />
+          </form>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseName}>Cancel</Button>
-          <Button type="submit">Update</Button>
+          <Button type="submit" form="nameForm">
+            Update
+          </Button>
         </DialogActions>
       </Dialog>
     </>

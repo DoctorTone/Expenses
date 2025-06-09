@@ -22,12 +22,14 @@ const Menu = () => {
   const [category, setCategory] = useState("");
   const expenseCategories = useStore((state) => state.expenseCategories);
   const expenses = useStore((state) => state.expenses);
-  const expenseTotals = useStore((state) => state.expenseTotals);
+  const accountsName = useStore((state) => state.accountsName);
+  const totalExpenditure = useStore((state) => state.totalExpenditure);
   const updateExpenses = useStore((state) => state.updateExpenses);
   const updateUsedCategories = useStore((state) => state.updateUsedCategories);
   const updateTotals = useStore((state) => state.updateTotals);
   const updateCategories = useStore((state) => state.updateCategories);
   const setAccountsName = useStore((state) => state.setAccountsName);
+  const setExpenses = useStore((state) => state.setExpenses);
   const updateTotalExpenditure = useStore(
     (state) => state.updateTotalExpenditure
   );
@@ -58,8 +60,34 @@ const Menu = () => {
 
   const displayExpenses = () => {
     // DEBUG
-    console.log("Expenses = ", expenseTotals);
+    console.log("Expenses = ", localStorage.getItem(accountsName));
   };
+
+  const saveExpenses = () => {
+    if (accountsName === "Unnamed") {
+      alert("Please set accounts name");
+    } else {
+      localStorage.setItem(accountsName, JSON.stringify(expenses));
+      localStorage.setItem(
+        `${accountsName}-totalExpenditure`,
+        totalExpenditure.toString()
+      );
+      localStorage.setItem(
+        `${accountsName}-expenseCategories`,
+        JSON.stringify(expenseCategories)
+      );
+      alert("Accounts saved");
+    }
+  };
+
+  const loadExpenses = () => {
+    const accounts = localStorage.getItem("Personal");
+    if (accounts) {
+      const expenses = JSON.parse(accounts);
+      setExpenses(expenses);
+    }
+  };
+
   const addExpense = (formData: FormData) => {
     // Get amount as number
     let numericAmount = parseFloat(formData.get("amount") as string);
@@ -74,9 +102,8 @@ const Menu = () => {
     );
 
     if (!foundCategory) {
-      // DEBUG
-      console.log("New category", currentCategory);
-      updateUsedCategories(currentCategory);
+      const newCategory: ExpenseItem = { label: currentCategory };
+      updateUsedCategories(newCategory);
     }
 
     const expense: Expense = {
@@ -88,6 +115,8 @@ const Menu = () => {
     updateExpenses(expense);
     updateTotals(expense);
     updateTotalExpenditure(expense.amount);
+    // DEBUG
+    console.log("Amount = ", expense.amount);
 
     setOpenExpense(false);
   };
@@ -99,7 +128,6 @@ const Menu = () => {
   const addCategory = (formData: FormData) => {
     const category: ExpenseItem = {
       label: formData.get("label") as string,
-      value: formData.get("value") as string,
     };
 
     updateCategories(category);
@@ -133,8 +161,14 @@ const Menu = () => {
           >
             Add Category
           </Button>
-          <Button variant="contained" onClick={displayExpenses}>
+          <Button variant="contained" onClick={displayExpenses} sx={{ mb: 2 }}>
             List All
+          </Button>
+          <Button variant="contained" onClick={saveExpenses} sx={{ mb: 2 }}>
+            Save to Browser
+          </Button>
+          <Button variant="contained" onClick={loadExpenses}>
+            Load accounts
           </Button>
         </Box>
       </div>
@@ -183,7 +217,7 @@ const Menu = () => {
               onChange={handleChange}
             >
               {expenseCategories.map((current) => (
-                <MenuItem value={current.value}>{current.label}</MenuItem>
+                <MenuItem value={current.label}>{current.label}</MenuItem>
               ))}
             </Select>
           </form>
@@ -211,16 +245,6 @@ const Menu = () => {
               id="categoryLabel"
               label="Label"
               name="label"
-              fullWidth
-              variant="standard"
-            />
-            <TextField
-              autoFocus
-              required
-              margin="dense"
-              id="categoryValue"
-              label="Value"
-              name="value"
               fullWidth
               variant="standard"
             />

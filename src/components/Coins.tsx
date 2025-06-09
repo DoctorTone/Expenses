@@ -4,7 +4,6 @@ import { useMemo } from "react";
 import { Vector3 } from "three";
 
 const Coins = () => {
-  const expenses = useStore((state) => state.expenses);
   const usedCategories = useStore((state) => state.usedCategories);
   const expenseTotals = useStore((state) => state.expenseTotals);
 
@@ -12,9 +11,9 @@ const Coins = () => {
     // const startVector = new Vector3(0, 0, -3);
     const rotAxis = new Vector3(0, 1, 0);
     const interval = (2 * Math.PI) / 10;
-    let currentAngle = (usedCategories - 1) * (interval / 2);
+    let currentAngle = (usedCategories.length - 1) * (interval / 2);
     const positions = [];
-    for (let i = 0; i < usedCategories; ++i) {
+    for (let i = 0; i < usedCategories.length; ++i) {
       const startVector = new Vector3(0, 0, -20);
       startVector.applyAxisAngle(rotAxis, currentAngle);
       currentAngle -= interval;
@@ -23,13 +22,11 @@ const Coins = () => {
     return positions;
   }, [usedCategories]);
 
-  // DEBUG
-  console.log("Pos = ", positions);
   return (
     <>
       {Object.keys(expenseTotals).map((key, index) => {
         return (
-          <>
+          <group key={key}>
             <Cylinder
               position={positions[index]}
               args={[1, 1, expenseTotals[key] * 2, 6]}
@@ -60,7 +57,7 @@ const Coins = () => {
                 {"£" + expenseTotals[key]}
               </Text>
             </Billboard>
-          </>
+          </group>
         );
       })}
     </>

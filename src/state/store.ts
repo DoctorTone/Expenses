@@ -6,15 +6,16 @@ interface ExpensesState {
   setAccountsName: (name: string) => void;
   expenseCategories: ExpenseItem[];
   updateCategories: (category: ExpenseItem) => void;
-  usedCategories: number;
+  usedCategories: ExpenseItem[];
   expenses: Expense[];
   expenseTotals: ExpenseTotals;
   totalExpenditure: number;
   updateTotalExpenditure: (total: number) => void;
   updateExpenses: (expense: Expense) => void;
-  updateUsedCategories: (category: string) => void;
+  updateUsedCategories: (category: ExpenseItem) => void;
   updateTotals: (expense: Expense) => void;
   expenditureAdded: boolean;
+  setExpenses: (expenses: Expense[]) => void;
 }
 
 const useStore = create<ExpensesState>((set) => ({
@@ -25,13 +26,13 @@ const useStore = create<ExpensesState>((set) => ({
     set((state) => ({ totalExpenditure: state.totalExpenditure + total })),
   expenditureAdded: false,
   expenseCategories: [
-    { label: "Food and drink", value: "Food" },
-    { label: "Groceries", value: "Groceries" },
-    { label: "Petrol", value: "Petrol" },
-    { label: "Bills", value: "Bills" },
-    { label: "DIY", value: "DIY" },
+    { label: "Food and drink" },
+    { label: "Groceries" },
+    { label: "Petrol" },
+    { label: "Bills" },
+    { label: "DIY" },
   ],
-  usedCategories: 0,
+  usedCategories: [],
   updateCategories: (category) =>
     set((state) => ({
       expenseCategories: [...state.expenseCategories, category],
@@ -45,8 +46,8 @@ const useStore = create<ExpensesState>((set) => ({
     })),
   updateUsedCategories: (category) =>
     set((state) => ({
-      usedCategories: state.usedCategories + 1,
-      expenseTotals: { ...state.expenseTotals, [category]: 0 },
+      usedCategories: [...state.usedCategories, category],
+      expenseTotals: { ...state.expenseTotals, [category.label]: 0 },
     })),
   updateTotals: (expense) =>
     set((state) => ({
@@ -56,6 +57,8 @@ const useStore = create<ExpensesState>((set) => ({
           state.expenseTotals[expense.category] + expense.amount,
       },
     })),
+  setExpenses: (accounts) =>
+    set(() => ({ expenses: [...accounts], expenditureAdded: true })),
 }));
 
 export default useStore;

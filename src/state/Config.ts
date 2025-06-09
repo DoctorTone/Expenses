@@ -6,7 +6,6 @@ const SCENE = {
 
 export type ExpenseItem = {
   label: string;
-  value: string;
 };
 
 export type Expense = {

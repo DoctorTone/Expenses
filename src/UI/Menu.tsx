@@ -108,9 +108,31 @@ const Menu = () => {
     if (accounts) {
       const expenses = JSON.parse(accounts);
       setExpenses(expenses);
+      const totalExpend = localStorage.getItem(
+        `${accountsName}-totalExpenditure`
+      );
+      if (totalExpend) {
+        const totalExpendJSON = JSON.parse(totalExpend);
+        // DEBUG
+        console.log("Total expend = ", totalExpendJSON);
+      }
+      const expenseCats = localStorage.getItem(
+        `${accountsName}-expenseCategories`
+      );
+      if (expenseCats) {
+        const expenseCatsJSON = JSON.parse(expenseCats);
+        // DEBUG
+        console.log("Expense cats = ", expenseCatsJSON);
+      }
+      const usedCats = localStorage.getItem(`${accountsName}-usedCategories`);
+      if (usedCats) {
+        const usedCatsJSON = JSON.parse(usedCats);
+        // DEBUG
+        console.log("Used cats = ", usedCatsJSON);
+      }
       setOpenLoad(false);
       // DEBUG
-      console.log("Accounts = ", expenses);
+      //console.log("Accounts = ", expenses);
     }
   };
 

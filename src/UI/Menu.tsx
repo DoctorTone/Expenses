@@ -19,9 +19,12 @@ const Menu = () => {
   const [openExpense, setOpenExpense] = useState(false);
   const [openCategory, setOpenCategory] = useState(false);
   const [openName, setOpenName] = useState(false);
+  const [openLoad, setOpenLoad] = useState(false);
   const [category, setCategory] = useState("");
   const expenseCategories = useStore((state) => state.expenseCategories);
+  const usedCategories = useStore((state) => state.usedCategories);
   const expenses = useStore((state) => state.expenses);
+  const expenseTotals = useStore((state) => state.expenseTotals);
   const accountsName = useStore((state) => state.accountsName);
   const totalExpenditure = useStore((state) => state.totalExpenditure);
   const updateExpenses = useStore((state) => state.updateExpenses);
@@ -46,6 +49,10 @@ const Menu = () => {
     setOpenName(true);
   };
 
+  const openLoadDialog = () => {
+    setOpenLoad(true);
+  };
+
   const handleCloseExpense = () => {
     setOpenExpense(false);
   };
@@ -54,13 +61,20 @@ const Menu = () => {
     setOpenCategory(false);
   };
 
+  const handleCloseLoad = () => {
+    setOpenLoad(false);
+  };
+
   const handleCloseName = () => {
     setOpenName(false);
   };
 
   const displayExpenses = () => {
     // DEBUG
-    console.log("Expenses = ", localStorage.getItem(accountsName));
+    console.log(
+      "Expenses = ",
+      localStorage.getItem(`${accountsName}-expenseCategories`)
+    );
   };
 
   const saveExpenses = () => {
@@ -73,18 +87,30 @@ const Menu = () => {
         totalExpenditure.toString()
       );
       localStorage.setItem(
+        `${accountsName}-expenseTotals`,
+        JSON.stringify(expenseTotals)
+      );
+      localStorage.setItem(
         `${accountsName}-expenseCategories`,
         JSON.stringify(expenseCategories)
+      );
+      localStorage.setItem(
+        `${accountsName}-usedCategories`,
+        JSON.stringify(usedCategories)
       );
       alert("Accounts saved");
     }
   };
 
-  const loadExpenses = () => {
-    const accounts = localStorage.getItem("Personal");
+  const loadExpenses = (formData: FormData) => {
+    const accountsName = formData.get("loadName") as string;
+    const accounts = localStorage.getItem(`${accountsName}`);
     if (accounts) {
       const expenses = JSON.parse(accounts);
       setExpenses(expenses);
+      setOpenLoad(false);
+      // DEBUG
+      console.log("Accounts = ", expenses);
     }
   };
 
@@ -167,9 +193,13 @@ const Menu = () => {
           <Button variant="contained" onClick={saveExpenses} sx={{ mb: 2 }}>
             Save to Browser
           </Button>
-          <Button variant="contained" onClick={loadExpenses}>
+          <Button variant="contained" onClick={openLoadDialog} sx={{ mb: 2 }}>
             Load accounts
           </Button>
+          <Button variant="contained" sx={{ mb: 2 }}>
+            Delete accounts
+          </Button>
+          <Button variant="contained">Reset</Button>
         </Box>
       </div>
       <Dialog
@@ -282,6 +312,34 @@ const Menu = () => {
           <Button onClick={handleCloseName}>Cancel</Button>
           <Button type="submit" form="nameForm">
             Update
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        open={openLoad}
+        onClose={handleCloseLoad}
+        maxWidth="md"
+        fullWidth={true}
+      >
+        <DialogTitle>Load Accounts</DialogTitle>
+        <DialogContent>
+          <form id="loadForm" action={loadExpenses}>
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              id="loadName"
+              name="loadName"
+              label="Name"
+              fullWidth
+              variant="standard"
+            />
+          </form>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseLoad}>Cancel</Button>
+          <Button type="submit" form="loadForm">
+            Load
           </Button>
         </DialogActions>
       </Dialog>

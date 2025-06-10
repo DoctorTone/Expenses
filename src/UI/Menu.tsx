@@ -151,6 +151,8 @@ const Menu = () => {
     if (Number.isNaN(numericAmount)) {
       numericAmount = 0;
     }
+    let numericString = numericAmount.toFixed(2);
+    numericAmount = parseFloat(numericString);
 
     // See if new category
     const currentCategory = formData.get("category") as string;

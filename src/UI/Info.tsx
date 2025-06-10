@@ -4,7 +4,9 @@ import { MONTHS } from "../state/Config";
 
 const Info = () => {
   const accountsName = useStore((state) => state.accountsName);
-  const totalExpenditure = useStore((state) => state.totalExpenditure);
+  let totalExpenditure = useStore((state) => state.totalExpenditure);
+  const totalExpenditureString = totalExpenditure.toFixed(2);
+  const total = parseFloat(totalExpenditureString);
   const date = new Date();
   const month = MONTHS[date.getMonth()];
   const year = date.getFullYear();
@@ -16,7 +18,7 @@ const Info = () => {
         <Typography variant="h6">
           Date: {month} {year}
         </Typography>
-        <Typography variant="h6">Total: £{totalExpenditure}</Typography>
+        <Typography variant="h6">Total: £{total}</Typography>
       </div>
     </>
   );

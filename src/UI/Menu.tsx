@@ -33,6 +33,11 @@ const Menu = () => {
   const updateCategories = useStore((state) => state.updateCategories);
   const setAccountsName = useStore((state) => state.setAccountsName);
   const setExpenses = useStore((state) => state.setExpenses);
+  const setTotalExpenditure = useStore((state) => state.setTotalExpenditure);
+  const setUpdateRequired = useStore((state) => state.setUpdateRequired);
+  const setExpenseCategories = useStore((state) => state.setExpenseCategories);
+  const setUsedCategories = useStore((state) => state.setUsedCategories);
+  const setExpenseTotals = useStore((state) => state.setExpenseTotals);
   const updateTotalExpenditure = useStore(
     (state) => state.updateTotalExpenditure
   );
@@ -106,6 +111,7 @@ const Menu = () => {
     const accountsName = formData.get("loadName") as string;
     const accounts = localStorage.getItem(`${accountsName}`);
     if (accounts) {
+      setAccountsName(accountsName);
       const expenses = JSON.parse(accounts);
       setExpenses(expenses);
       const totalExpend = localStorage.getItem(
@@ -113,26 +119,29 @@ const Menu = () => {
       );
       if (totalExpend) {
         const totalExpendJSON = JSON.parse(totalExpend);
-        // DEBUG
-        console.log("Total expend = ", totalExpendJSON);
+        setTotalExpenditure(totalExpendJSON);
+      }
+      const expenseTotals = localStorage.getItem(
+        `${accountsName}-expenseTotals`
+      );
+      if (expenseTotals) {
+        const expenseTotalsJSON = JSON.parse(expenseTotals);
+        setExpenseTotals(expenseTotalsJSON);
       }
       const expenseCats = localStorage.getItem(
         `${accountsName}-expenseCategories`
       );
       if (expenseCats) {
         const expenseCatsJSON = JSON.parse(expenseCats);
-        // DEBUG
-        console.log("Expense cats = ", expenseCatsJSON);
+        setExpenseCategories(expenseCatsJSON);
       }
       const usedCats = localStorage.getItem(`${accountsName}-usedCategories`);
       if (usedCats) {
         const usedCatsJSON = JSON.parse(usedCats);
-        // DEBUG
-        console.log("Used cats = ", usedCatsJSON);
+        setUsedCategories(usedCatsJSON);
       }
       setOpenLoad(false);
-      // DEBUG
-      //console.log("Accounts = ", expenses);
+      setUpdateRequired(true);
     }
   };
 

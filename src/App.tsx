@@ -7,7 +7,7 @@ import useStore from "./state/store";
 import Info from "./UI/Info";
 
 function App() {
-  const expenditureAdded = useStore((state) => state.expenditureAdded);
+  const updateRequired = useStore((state) => state.updateRequired);
 
   return (
     <>
@@ -19,7 +19,7 @@ function App() {
           azimuth={0.25}
         />
         <Stage adjustCamera={false} shadows="contact" environment="city">
-          {!expenditureAdded && (
+          {!updateRequired && (
             <Text
               color="black"
               anchorX="center"
@@ -30,7 +30,7 @@ function App() {
             </Text>
           )}
 
-          {expenditureAdded && <Coins />}
+          {<Coins />}
           <Cylinder args={[100, 100]}>
             <meshStandardMaterial color="#807e7c" />
           </Cylinder>

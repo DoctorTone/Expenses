@@ -15,11 +15,19 @@ interface ExpensesState {
   updateUsedCategories: (category: ExpenseItem) => void;
   updateTotals: (expense: Expense) => void;
   expenditureAdded: boolean;
+  updateRequired: boolean;
+  setUpdateRequired: (status: boolean) => void;
   setExpenses: (expenses: Expense[]) => void;
+  setTotalExpenditure: (total: number) => void;
+  setExpenseCategories: (categories: ExpenseItem[]) => void;
+  setUsedCategories: (categories: ExpenseItem[]) => void;
+  setExpenseTotals: (totals: ExpenseTotals) => void;
 }
 
 const useStore = create<ExpensesState>((set) => ({
   accountsName: "Unnamed",
+  updateRequired: false,
+  setUpdateRequired: (status) => set(() => ({ updateRequired: status })),
   setAccountsName: (name) => set(() => ({ accountsName: name })),
   totalExpenditure: 0,
   updateTotalExpenditure: (total) =>
@@ -32,7 +40,11 @@ const useStore = create<ExpensesState>((set) => ({
     { label: "Bills" },
     { label: "DIY" },
   ],
+  setExpenseCategories: (categories) =>
+    set(() => ({ expenseCategories: [...categories] })),
   usedCategories: [],
+  setUsedCategories: (categories) =>
+    set(() => ({ usedCategories: [...categories] })),
   updateCategories: (category) =>
     set((state) => ({
       expenseCategories: [...state.expenseCategories, category],
@@ -42,7 +54,7 @@ const useStore = create<ExpensesState>((set) => ({
   updateExpenses: (expense) =>
     set((state) => ({
       expenses: [...state.expenses, expense],
-      expenditureAdded: true,
+      updateRequired: true,
     })),
   updateUsedCategories: (category) =>
     set((state) => ({
@@ -59,6 +71,8 @@ const useStore = create<ExpensesState>((set) => ({
     })),
   setExpenses: (accounts) =>
     set(() => ({ expenses: [...accounts], expenditureAdded: true })),
+  setTotalExpenditure: (total) => set(() => ({ totalExpenditure: total })),
+  setExpenseTotals: (totals) => set(() => ({ expenseTotals: { ...totals } })),
 }));
 
 export default useStore;

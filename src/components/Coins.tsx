@@ -29,8 +29,12 @@ const Coins = () => {
         return (
           <group key={key}>
             <Cylinder
-              position={positions[index]}
-              args={[1, 1, expenseTotals[key] * 2, 6]}
+              position={[
+                positions[index].x,
+                positions[index].y + expenseTotals[key] / 2,
+                positions[index].z,
+              ]}
+              args={[1, 1, expenseTotals[key], SCENE.SEGMENTS]}
             >
               <meshStandardMaterial color="red" />
             </Cylinder>

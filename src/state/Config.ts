@@ -2,6 +2,7 @@ import { Vector3 } from "three";
 
 const SCENE = {
   CAMERA_POSITION: new Vector3(0, 12.5, 35),
+  DISPLAY_RADIUS: 70,
 };
 
 export type ExpenseItem = {

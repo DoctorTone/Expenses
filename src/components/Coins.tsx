@@ -2,6 +2,7 @@ import { Billboard, Cylinder, Text } from "@react-three/drei";
 import useStore from "../state/store";
 import { useMemo } from "react";
 import { Vector3 } from "three";
+import { SCENE } from "../state/Config";
 
 const Coins = () => {
   const usedCategories = useStore((state) => state.usedCategories);
@@ -14,7 +15,7 @@ const Coins = () => {
     let currentAngle = (usedCategories.length - 1) * (interval / 2);
     const positions = [];
     for (let i = 0; i < usedCategories.length; ++i) {
-      const startVector = new Vector3(0, 0, -20);
+      const startVector = new Vector3(0, 0, -SCENE.DISPLAY_RADIUS);
       startVector.applyAxisAngle(rotAxis, currentAngle);
       currentAngle -= interval;
       positions.push(startVector);

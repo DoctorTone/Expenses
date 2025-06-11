@@ -240,7 +240,6 @@ const Menu = () => {
           <Button variant="contained" onClick={openDeleteDialog} sx={{ mb: 2 }}>
             Delete accounts
           </Button>
-          <Button variant="contained">Reset</Button>
         </Box>
       </div>
       <Dialog

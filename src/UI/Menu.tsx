@@ -14,12 +14,14 @@ import {
 } from "@mui/material";
 import useStore from "../state/store";
 import type { Expense, ExpenseItem } from "../state/Config";
+import DeleteDialog from "../dialogs/DeleteDialog";
 
 const Menu = () => {
   const [openExpense, setOpenExpense] = useState(false);
   const [openCategory, setOpenCategory] = useState(false);
   const [openName, setOpenName] = useState(false);
   const [openLoad, setOpenLoad] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
   const [category, setCategory] = useState("");
   const expenseCategories = useStore((state) => state.expenseCategories);
   const usedCategories = useStore((state) => state.usedCategories);
@@ -58,6 +60,15 @@ const Menu = () => {
     setOpenLoad(true);
   };
 
+  const openDeleteDialog = () => {
+    setOpenDelete(true);
+    console.log("Open delete is true");
+  };
+
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
+  };
+
   const handleCloseExpense = () => {
     setOpenExpense(false);
   };
@@ -76,10 +87,7 @@ const Menu = () => {
 
   const displayExpenses = () => {
     // DEBUG
-    console.log(
-      "Expenses = ",
-      localStorage.getItem(`${accountsName}-expenseCategories`)
-    );
+    console.log("Expenses = ", localStorage.getItem(`${accountsName}`));
   };
 
   const saveExpenses = () => {
@@ -229,7 +237,7 @@ const Menu = () => {
           <Button variant="contained" onClick={openLoadDialog} sx={{ mb: 2 }}>
             Load accounts
           </Button>
-          <Button variant="contained" sx={{ mb: 2 }}>
+          <Button variant="contained" onClick={openDeleteDialog} sx={{ mb: 2 }}>
             Delete accounts
           </Button>
           <Button variant="contained">Reset</Button>
@@ -376,6 +384,10 @@ const Menu = () => {
           </Button>
         </DialogActions>
       </Dialog>
+      <DeleteDialog
+        openDeleteDialog={openDelete}
+        closeHandler={handleCloseDelete}
+      />
     </>
   );
 };

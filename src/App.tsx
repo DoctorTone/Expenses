@@ -30,7 +30,7 @@ function App() {
             </Text>
           )}
 
-          {<Coins />}
+          <Coins />
           <Cylinder args={[100, 100]}>
             <meshStandardMaterial color="#807e7c" />
           </Cylinder>

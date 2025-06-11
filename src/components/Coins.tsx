@@ -1,4 +1,5 @@
 import { Billboard, Cylinder, Text } from "@react-three/drei";
+import { useThree, useFrame } from "@react-three/fiber";
 import useStore from "../state/store";
 import { useMemo } from "react";
 import { Vector3 } from "three";
@@ -7,11 +8,12 @@ import { SCENE } from "../state/Config";
 const Coins = () => {
   const usedCategories = useStore((state) => state.usedCategories);
   const expenseTotals = useStore((state) => state.expenseTotals);
+  const { camera } = useThree();
 
   const positions = useMemo(() => {
     // const startVector = new Vector3(0, 0, -3);
     const rotAxis = new Vector3(0, 1, 0);
-    const interval = (2 * Math.PI) / 10;
+    const interval = (2 * Math.PI) / SCENE.CYLINDER_SLOTS;
     let currentAngle = (usedCategories.length - 1) * (interval / 2);
     const positions = [];
     for (let i = 0; i < usedCategories.length; ++i) {
@@ -22,6 +24,10 @@ const Coins = () => {
     }
     return positions;
   }, [usedCategories]);
+
+  useFrame(() => {
+    console.log("Cam pos = ", camera.position);
+  });
 
   return (
     <>
@@ -49,7 +55,8 @@ const Coins = () => {
                 color="black"
                 anchorX="center"
                 anchorY="middle"
-                position-y={expenseTotals[key] + 2}
+                position-y={expenseTotals[key] + 5}
+                scale={3}
               >
                 {key}
               </Text>
@@ -57,7 +64,8 @@ const Coins = () => {
                 color="black"
                 anchorX="center"
                 anchorY="middle"
-                position-y={expenseTotals[key] + 1}
+                position-y={expenseTotals[key] + 2}
+                scale={3}
               >
                 {"£" + expenseTotals[key]}
               </Text>
